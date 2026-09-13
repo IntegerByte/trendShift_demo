@@ -13,7 +13,9 @@ services:
     buildCommand: >
       pip install -r requirements.txt &&
       python manage.py collectstatic --noinput &&
-      python manage.py migrate
+      python manage.py migrate &&
+      python manage.py seed_trendshift &&
+      (python manage.py createsuperuser --noinput || true)
     startCommand: gunicorn mycore.wsgi:application
     envVars:
       - key: DJANGO_SECRET_KEY
@@ -30,6 +32,17 @@ services:
         fromDatabase:
           name: trendshift-db
           property: connectionString
+      # No free-plan Shell access, so the initial superuser is created via
+      # this build-time command instead. Fill these in on the Render
+      # dashboard (Environment tab) rather than committing real values here
+      # -- `sync: false` makes Render prompt for them instead of storing
+      # them in this file.
+      - key: DJANGO_SUPERUSER_USERNAME
+        sync: false
+      - key: DJANGO_SUPERUSER_EMAIL
+        sync: false
+      - key: DJANGO_SUPERUSER_PASSWORD
+        sync: false
 
   - type: web
     name: trendshift-frontend
