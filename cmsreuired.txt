@@ -1,0 +1,822 @@
+You are working on a new CMS project for a client named "Trendshift".
+
+IMPORTANT:
+Build this project professionally from scratch.
+Do not make assumptions where requirements are unclear.
+Inspect the existing workspace files before implementing anything.
+
+==================================================
+1. PROJECT GOAL
+==================================================
+
+We need to build a modern CMS website/application for Trendshift.
+
+The CMS should allow administrators/content managers to manage the website content while the frontend consumes the content through a Django REST API.
+
+Technology stack:
+
+FRONTEND:
+- React.js
+- Latest stable React version available in the development environment
+- Modern component-based architecture
+- Responsive design
+- Production-ready structure
+
+BACKEND:
+- Python
+- Latest stable Django version compatible with the selected Python version
+- Django REST Framework
+- PostgreSQL
+- REST API architecture
+
+DATABASE:
+- PostgreSQL
+
+The frontend and backend must be completely separated.
+
+==================================================
+2. WORKSPACE / FOLDER STRUCTURE
+==================================================
+
+Create both projects inside the SAME workspace.
+
+Use this structure:
+
+trendshift-cms/
+│
+├── frontend/
+│   └── trendshift-cms-web/
+│
+├── backend/
+│   └── trendshift-cms-api/
+│
+├── docs/
+│
+└── README.md
+
+Do NOT create the React project and Django project in unrelated locations.
+
+The root folder should make it obvious which folder belongs to frontend and which belongs to backend.
+
+If the workspace already contains relevant files, inspect them first and do not delete or overwrite them.
+
+==================================================
+3. DESIGN / UI / UX REFERENCE
+==================================================
+
+IMPORTANT:
+
+There are HTML design/reference files already present in the workspace.
+
+Before writing the frontend:
+
+1. Find all HTML/CSS/design reference files in the current workspace.
+2. Inspect them carefully.
+3. Understand their:
+   - Layout
+   - Header
+   - Navigation
+   - Hero sections
+   - Typography
+   - Font sizes
+   - Font weights
+   - Spacing
+   - Colors
+   - Cards
+   - Buttons
+   - Forms
+   - Footer
+   - Responsive behavior
+   - Overall visual hierarchy
+   - UI patterns
+   - UX patterns
+
+Use these HTML files as the PRIMARY design reference.
+
+Do NOT blindly copy bad/duplicate HTML structure.
+
+Recreate the design properly using reusable React components.
+
+The final React implementation should visually follow the supplied HTML design as closely as practical while using clean React architecture.
+
+Do not introduce a completely different design language.
+
+If the HTML contains placeholder/demo content, use the supplied Trendshift content document for actual content.
+
+==================================================
+4. CONTENT REFERENCE DOCUMENT
+==================================================
+
+The attached/reference content document is:
+
+"Trendshift Areas of Expertise"
+
+Use this document as the source of truth for the initial website content.
+
+IMPORTANT:
+Do not invent or rewrite the client's content unnecessarily.
+
+Preserve the terminology and structure from the document.
+
+The document describes Trendshift and its ten core areas of expertise.
+
+The initial content includes:
+
+1. Technology Strategy and Digital Transformation
+
+Capabilities:
+- IT strategic planning and digital transformation roadmaps
+- Technology investment prioritization and business case development
+- Legacy system modernization strategy
+- Cloud strategy and migration planning
+- Digital maturity assessments and benchmarking
+- Innovation and emerging technology adoption strategy
+
+2. Program and Project Management (PMO)
+
+Capabilities:
+- PMO design, standup, and governance
+- Program and project planning, scheduling, and cost management
+- Risk, issue, and dependency management
+- Earned value management (EVM) and performance reporting
+- Multi-vendor and multi-stakeholder program coordination
+- Agile, waterfall, and hybrid delivery methodologies
+
+3. Independent Verification & Validation (IV&V)
+
+Capabilities:
+- Independent assessment of requirements, design, and code quality
+- Test strategy and test artifact verification
+- Schedule, cost, and technical risk evaluation
+- Compliance validation against regulatory and contractual standards
+- Systems engineering and lifecycle reviews
+- Executive-level status reporting and early warning of program risk
+
+4. Business Process Improvement
+
+Capabilities:
+- Current-state process mapping and gap analysis
+- Lean and Six Sigma-based process redesign
+- Workflow automation and digitization
+- Performance metrics and KPI development
+- Service delivery and user experience optimization
+- Change readiness and implementation support
+
+5. Cybersecurity and Risk Management
+
+Capabilities:
+- Risk Management Framework (RMF) and Authority to Operate (ATO) support
+- Cybersecurity strategy, policy, and governance
+- Vulnerability assessments and penetration testing
+- Security architecture and controls implementation
+- Compliance support (FISMA, NIST, FedRAMP, and industry frameworks)
+- Incident response planning and cyber resilience
+
+6. Data Governance and Analytics
+
+Capabilities:
+- Data governance frameworks, policies, and stewardship models
+- Data quality management and master data management
+- Data architecture and integration strategy
+- Business intelligence and dashboard development
+- Advanced analytics and predictive modeling
+- Data privacy and regulatory compliance support
+
+7. Enterprise Architecture
+
+Capabilities:
+- Enterprise and solution architecture development
+- Business, data, application, and technology architecture alignment
+- Architecture governance and standards
+- Systems rationalization and technical debt reduction
+- Interoperability and integration architecture
+- Alignment with federal and industry architecture frameworks (e.g., TOGAF, FEAF)
+
+8. Organizational Change Management
+
+Capabilities:
+- Change management strategy and planning
+- Stakeholder analysis and engagement
+- Communications planning and execution
+- Training strategy and curriculum development
+- Organizational readiness assessments
+- Adoption measurement and reinforcement planning
+
+9. Procurement and Vendor Advisory Services
+
+Capabilities:
+- Acquisition strategy and market research
+- Requirements development and RFP/RFQ preparation
+- Source selection support and proposal evaluation
+- Vendor performance management and contract oversight
+- Cost/price analysis and negotiation support
+- Procurement process improvement and compliance
+
+10. AI Governance, Readiness, and Responsible AI Advisory
+
+Capabilities:
+- AI readiness and maturity assessments
+- AI governance framework design and policy development
+- Responsible AI risk assessment (bias, transparency, and accountability)
+- AI use case identification and prioritization
+- Regulatory and ethical compliance support (e.g., NIST AI Risk Management Framework, federal AI guidance)
+- AI workforce training and change enablement
+
+Also use the introductory/company description from the document where appropriate.
+
+==================================================
+5. CMS REQUIREMENTS
+==================================================
+
+Build the CMS so administrators can manage website content without modifying code.
+
+At minimum, design the backend around these content entities:
+
+- Site Settings
+- Pages
+- Expertise Areas
+- Expertise Capabilities
+- Navigation/Menu Items
+- Contact Information
+- SEO Metadata
+
+Design the architecture so additional CMS modules can be added later.
+
+Each Expertise Area should support:
+
+- Title
+- Slug
+- Short description
+- Full description
+- Capabilities
+- Display order
+- Published/Unpublished status
+- Featured status
+- Created date
+- Updated date
+
+Capabilities should be stored in a structured way rather than as one large text field.
+
+==================================================
+6. DJANGO ADMIN
+==================================================
+
+Configure Django Admin properly.
+
+Administrators should be able to:
+
+- Create/edit/delete expertise areas
+- Manage capabilities
+- Change ordering
+- Publish/unpublish content
+- Manage pages
+- Manage site settings
+- Manage navigation
+- Manage SEO metadata
+
+Use appropriate:
+- list_display
+- search_fields
+- list_filter
+- ordering
+- prepopulated_fields where appropriate
+- inline editing where useful
+
+The Django admin should be practical for a real content manager.
+
+==================================================
+7. REST API
+==================================================
+
+Use Django REST Framework.
+
+Create clean API endpoints.
+
+Example:
+
+GET /api/v1/site-settings/
+GET /api/v1/pages/
+GET /api/v1/expertise/
+GET /api/v1/expertise/{slug}/
+GET /api/v1/navigation/
+
+Use serializers and viewsets where appropriate.
+
+Only expose published content to public frontend APIs.
+
+Do not expose unnecessary internal/admin information.
+
+Use API versioning:
+
+/api/v1/
+
+Keep the API architecture scalable.
+
+==================================================
+8. POSTGRESQL
+==================================================
+
+Use PostgreSQL as the primary database.
+
+Do NOT use SQLite as the production database.
+
+For local development:
+
+- Configure environment variables.
+- Create .env.example.
+- Do NOT commit .env.
+- Do NOT hardcode passwords or secrets.
+
+Example environment variables:
+
+DATABASE_NAME=
+DATABASE_USER=
+DATABASE_PASSWORD=
+DATABASE_HOST=
+DATABASE_PORT=
+
+DJANGO_SECRET_KEY=
+DJANGO_DEBUG=
+DJANGO_ALLOWED_HOSTS=
+
+CORS_ALLOWED_ORIGINS=
+
+==================================================
+9. FRONTEND ARCHITECTURE
+==================================================
+
+Use modern React architecture.
+
+Create reusable components.
+
+Suggested structure:
+
+frontend/trendshift-cms-web/
+
+src/
+├── components/
+├── layouts/
+├── pages/
+├── sections/
+├── hooks/
+├── services/
+├── api/
+├── utils/
+├── assets/
+├── styles/
+└── routes/
+
+Use React Router for routing.
+
+Create an API service layer rather than putting fetch/API calls randomly inside components.
+
+The frontend should retrieve CMS content from Django APIs.
+
+Do NOT hardcode the expertise content in React components if it belongs in the CMS.
+
+==================================================
+10. PUBLIC WEBSITE
+==================================================
+
+Based on the supplied HTML design reference, create the initial public website.
+
+At minimum include:
+
+- Home
+- About
+- Areas of Expertise
+- Individual Expertise Detail
+- Contact
+
+The exact visual structure should follow the supplied HTML reference.
+
+Use the Trendshift content document for the initial Areas of Expertise content.
+
+==================================================
+11. CMS / ADMIN FRONTEND
+==================================================
+
+If the supplied HTML references include an admin/CMS design, use that design as the CMS UI reference.
+
+If they do not, create a clean professional admin interface that follows the visual language of the supplied website.
+
+The CMS should include:
+
+Dashboard
+
+Expertise:
+- List
+- Create
+- Edit
+- Delete
+- Publish/unpublish
+- Reorder
+
+Pages:
+- List
+- Create
+- Edit
+- Delete
+- Publish/unpublish
+
+Navigation:
+- Manage menu items
+- Ordering
+- Visibility
+
+Site Settings:
+- Business name
+- Contact information
+- Social links
+- Other global settings
+
+SEO:
+- Meta title
+- Meta description
+- Slug
+- Open Graph fields where appropriate
+
+==================================================
+12. AUTHENTICATION / SECURITY
+==================================================
+
+The CMS/admin APIs must be protected.
+
+Implement proper authentication for admin functionality.
+
+Public APIs should only expose published public content.
+
+Do not expose:
+- Passwords
+- Secret keys
+- Internal configuration
+- Database credentials
+- Admin-only information
+
+Configure CORS correctly.
+
+Do not use:
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+for production.
+
+==================================================
+13. VALIDATION
+==================================================
+
+Implement backend validation.
+
+Examples:
+
+- Required fields
+- Unique slugs
+- Valid ordering
+- Valid status
+- Proper relationship handling
+
+Frontend should also provide useful validation and error messages.
+
+==================================================
+14. ERROR HANDLING
+==================================================
+
+Implement proper API error handling.
+
+Frontend should gracefully handle:
+
+- API unavailable
+- 404
+- 500
+- Empty content
+- Loading states
+- Network errors
+
+Do not leave blank screens.
+
+Provide user-friendly error states.
+
+==================================================
+15. RESPONSIVE DESIGN
+==================================================
+
+The frontend must work properly on:
+
+- Desktop
+- Laptop
+- Tablet
+- Mobile
+
+Use the HTML references to understand their responsive behavior.
+
+Do not simply shrink the desktop design.
+
+Navigation, cards, grids, typography and spacing should adapt appropriately.
+
+==================================================
+16. SEO
+==================================================
+
+The public website should be SEO-friendly.
+
+Implement:
+
+- Semantic HTML
+- Proper heading hierarchy
+- Page titles
+- Meta descriptions
+- Clean URLs
+- Slugs
+- Open Graph metadata where appropriate
+
+CMS-managed SEO values should be used by the React frontend.
+
+==================================================
+17. DEVELOPMENT ENVIRONMENT
+==================================================
+
+You are allowed to run terminal commands required to set up the development environment.
+
+Before running destructive commands, explain what you are going to change.
+
+You may install required dependencies after checking what is already installed.
+
+First check:
+
+- Node.js version
+- npm/pnpm/yarn availability
+- Python version
+- pip
+- PostgreSQL availability
+- Git
+- Existing project files
+- Existing HTML/CSS assets
+
+Use the latest stable versions that are compatible with each other.
+
+Do NOT downgrade existing software unnecessarily.
+
+==================================================
+18. DATABASE SETUP
+==================================================
+
+After creating the Django project:
+
+- Configure PostgreSQL
+- Create migrations
+- Run migrations
+- Create a Django superuser only if appropriate and with user confirmation if credentials are required
+- Register models in Django Admin
+
+Create seed/initial data based on the supplied Trendshift content document.
+
+Do not manually duplicate the content in multiple places.
+
+The database should become the source of truth.
+
+==================================================
+19. INITIAL DATA
+==================================================
+
+Create initial database content for all 10 Trendshift expertise areas using the supplied document.
+
+Preserve the source content accurately.
+
+For each expertise area:
+
+- title
+- slug
+- description
+- capabilities
+
+Do not invent additional capabilities.
+
+==================================================
+20. CODE QUALITY
+==================================================
+
+Follow production-quality standards.
+
+Frontend:
+- Reusable components
+- Clean naming
+- No unnecessary duplication
+- Proper state handling
+- API abstraction
+- Responsive design
+
+Backend:
+- Proper Django app separation
+- Serializers
+- Viewsets/API views
+- Models
+- Permissions
+- URL routing
+- Validation
+- Environment configuration
+
+Avoid putting everything into one giant file.
+
+==================================================
+21. CONFIGURATION FILES
+==================================================
+
+Create:
+
+.env.example
+
+.gitignore
+
+README.md
+
+Make sure secrets are excluded from Git.
+
+README should document:
+
+- Project structure
+- Prerequisites
+- Frontend setup
+- Backend setup
+- PostgreSQL setup
+- Environment variables
+- Migration commands
+- Creating superuser
+- Running frontend
+- Running backend
+- API base URL
+- Production build commands
+
+==================================================
+22. GIT
+==================================================
+
+Prepare the project to be Git-friendly.
+
+Make sure these are NOT committed:
+
+.env
+venv/
+__pycache__/
+node_modules/
+dist/
+build/
+*.pyc
+
+Do not commit database credentials or secrets.
+
+==================================================
+23. TESTING
+==================================================
+
+After implementation, test:
+
+BACKEND:
+- Django system check
+- migrations
+- API endpoints
+- Admin login
+- Published/unpublished behavior
+- Expertise CRUD
+- Slug behavior
+
+FRONTEND:
+- npm build
+- routing
+- API connectivity
+- responsive layout
+- loading states
+- error states
+
+Fix errors rather than simply reporting them.
+
+==================================================
+24. IMPORTANT: DO NOT BREAK EXISTING FILES
+==================================================
+
+Before making changes:
+
+1. Inspect the workspace.
+2. Identify existing projects/files.
+3. Do not delete unrelated files.
+4. Do not overwrite existing client assets.
+5. Do not replace supplied HTML references.
+6. Reuse/reference them appropriately.
+
+If something already exists that can be reused, prefer extending/reusing it instead of recreating it.
+
+==================================================
+25. IMPLEMENTATION ORDER
+==================================================
+
+Follow this order:
+
+STEP 1:
+Inspect workspace and all available HTML/CSS/reference files.
+
+STEP 2:
+Inspect the Trendshift content document.
+
+STEP 3:
+Check installed development tools and versions.
+
+STEP 4:
+Create the root project structure:
+
+trendshift-cms/
+frontend/
+backend/
+docs/
+
+STEP 5:
+Create React frontend.
+
+STEP 6:
+Create Django backend.
+
+STEP 7:
+Configure PostgreSQL.
+
+STEP 8:
+Create Django models.
+
+STEP 9:
+Create migrations.
+
+STEP 10:
+Create Django Admin.
+
+STEP 11:
+Create REST API.
+
+STEP 12:
+Seed the 10 expertise areas from the supplied document.
+
+STEP 13:
+Build React UI based on the supplied HTML reference.
+
+STEP 14:
+Connect React to Django APIs.
+
+STEP 15:
+Implement CMS/admin functionality.
+
+STEP 16:
+Implement authentication/security.
+
+STEP 17:
+Implement SEO.
+
+STEP 18:
+Run tests/builds.
+
+STEP 19:
+Fix all errors.
+
+STEP 20:
+Update README with complete setup instructions.
+
+==================================================
+26. DO NOT STOP AT SCAFFOLDING
+==================================================
+
+Do NOT only create empty React/Django boilerplate.
+
+The goal is to produce a working initial CMS application.
+
+By the end:
+
+- React should run.
+- Django should run.
+- PostgreSQL should be configured.
+- Django Admin should work.
+- REST APIs should work.
+- Initial Trendshift content should exist.
+- React should consume the API.
+- Public pages should display the content.
+- UI should follow the supplied HTML reference.
+- CMS content should be manageable through the admin interface.
+
+==================================================
+27. FINAL REPORT
+==================================================
+
+When implementation is complete, provide a concise report containing:
+
+1. What was created
+2. Final folder structure
+3. React version
+4. Django version
+5. Python version
+6. PostgreSQL configuration
+7. API endpoints
+8. Admin URL
+9. Frontend URL
+10. Commands to run frontend
+11. Commands to run backend
+12. Any remaining TODOs
+13. Any assumptions made
+
+Do not claim something works unless you actually tested it.
+
+Start by inspecting the workspace and reference files.
+Then proceed step-by-step.

@@ -1,0 +1,68 @@
+# ==========================================================================
+# TrendShift static site — Apache configuration
+# Security headers + performance tuning for enterprise-grade delivery.
+# Safe to keep alongside XAMPP's default Apache/httpd config; every
+# directive below is guarded by <IfModule> so it is a no-op if that Apache
+# module isn't loaded, instead of causing a 500 error.
+# ==========================================================================
+
+# ---- Security headers -----------------------------------------------------
+<IfModule mod_headers.c>
+    # Modern replacement/complement to the <meta> CSP in each page's <head>.
+    # frame-ancestors and other header-only directives only take effect here.
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'"
+
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+
+    # Only takes effect once the site is served over HTTPS — harmless over
+    # plain HTTP (browsers ignore HSTS on non-TLS responses).
+    Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains"
+
+    # Legacy header kept for older browsers; CSP above is the modern control.
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Don't expose server version/OS details in error pages or headers.
+ServerSignature Off
+<IfModule mod_headers.c>
+    Header unset X-Powered-By
+</IfModule>
+
+# Prevent directory listings and block access to dotfiles (.git, .env, etc.)
+Options -Indexes
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# ---- Performance: compression ---------------------------------------------
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+    AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+    AddOutputFilterByType DEFLATE application/json image/svg+xml
+</IfModule>
+
+# ---- Performance: browser caching ------------------------------------------
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(css|js|png|jpg|jpeg|svg|ico|woff2?)$">
+        Header set Cache-Control "public, max-age=2592000, immutable"
+    </FilesMatch>
+    <FilesMatch "\.html$">
+        Header set Cache-Control "public, max-age=0, must-revalidate"
+    </FilesMatch>
+</IfModule>

@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css2?family=Rufina:wght@400;700&family=Montserrat:wght@400;500;600;700&display=swap');
+
+/* Admin design tokens — reuses the public site's brand (accent orange,
+   dark navy, Rufina/Montserrat) instead of a separate design language,
+   per the CMS spec's "do not introduce a completely different design
+   language" requirement. Defined on :root (not just .cms-shell) so
+   elements rendered outside .cms-shell — the toast stack and confirm
+   dialog, which portal alongside it rather than inside it — can resolve
+   these variables too. */
+:root {
+  --cms-accent: #fe4e16;
+  --cms-navy: #120429;
+  --cms-navy-soft: #1d1240;
+  --cms-ink: #100224;
+  --cms-muted: #6b6d76;
+  --cms-border: #e6e4ea;
+  --cms-bg: #f6f5f8;
+  --cms-success: #1e7b34;
+  --cms-success-bg: #eaf7ee;
+  --cms-danger: #b3261e;
+  --cms-danger-bg: #fceaea;
+}
+
+.cms-shell {
+  min-height: 100vh;
+  background: var(--cms-bg);
+  color: var(--cms-ink);
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+}
+
+.cms-heading { font-family: "Rufina", serif; font-weight: 400; color: var(--cms-ink); }
+
+/* ---- Sidebar ---- */
+.cms-sidebar { background: var(--cms-navy); color: #eef0f5; width: 250px; min-height: 100vh; padding: 30px 18px; display: flex; flex-direction: column; flex: 0 0 250px; }
+.cms-brand { display: flex; gap: 12px; align-items: center; padding: 0 13px 40px; }
+.cms-brand > span { width: 37px; height: 37px; display: grid; place-items: center; background: var(--cms-accent); color: #fff; font-weight: 700; border-radius: 4px; }
+.cms-brand strong, .cms-brand small { display: block; }
+.cms-brand small { color: #9a92b8; font-size: 11px; margin-top: 3px; }
+.cms-sidebar nav { display: grid; gap: 4px; }
+.cms-sidebar nav a { border: 0; background: transparent; color: #b7b3cf; text-decoration: none; text-align: left; padding: 13px 14px; display: flex; gap: 12px; align-items: center; font: 500 14px "Montserrat", sans-serif; cursor: pointer; border-radius: 4px; }
+.cms-sidebar nav a i { font-style: normal; width: 17px; text-align: center; color: var(--cms-accent); }
+.cms-sidebar nav a.is-active, .cms-sidebar nav a:hover { color: #fff; background: rgba(254, 78, 22, 0.15); }
+.cms-view-site { color: #b7b3cf; font-size: 12px; text-decoration: none; padding: 0 14px; margin-top: auto; }
+.cms-view-site:hover { color: #fff; }
+
+/* ---- Header account menu (Site settings + Sign out) ---- */
+.cms-account { position: relative; }
+.cms-account__trigger { display: flex; align-items: center; gap: 10px; border: 1px solid var(--cms-border); background: #fff; padding: 8px 16px 8px 8px; border-radius: 50px; cursor: pointer; font: 700 13px "Montserrat", sans-serif; color: var(--cms-ink); }
+.cms-account__trigger:hover { border-color: var(--cms-accent); }
+.cms-account__avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--cms-accent); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 13px; }
+.cms-account__scrim { position: fixed; inset: 0; border: 0; background: none; cursor: default; z-index: 29; }
+.cms-account__menu { position: absolute; top: calc(100% + 8px); right: 0; background: #fff; border: 1px solid var(--cms-border); border-radius: 6px; box-shadow: 0 12px 30px rgba(18, 4, 41, 0.15); min-width: 180px; padding: 6px; display: grid; z-index: 30; }
+.cms-account .cms-account__menu a, .cms-account .cms-account__menu button { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 10px 12px; border-radius: 4px; font: 500 13px "Montserrat", sans-serif; font-weight: 500; color: var(--cms-ink); text-decoration: none; cursor: pointer; }
+.cms-account .cms-account__menu a:hover, .cms-account .cms-account__menu button:hover { background: var(--cms-bg); }
+
+/* ---- Main ---- */
+.cms-main { flex: 1; min-width: 0; }
+.cms-topbar { min-height: 110px; background: #fff; border-bottom: 1px solid var(--cms-border); padding: 26px 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.cms-topbar span, .cms-kicker { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--cms-accent); font-weight: 700; }
+.cms-topbar h1 { font: 400 30px "Rufina", serif; margin-top: 8px; color: var(--cms-ink); }
+.cms-topbar a { color: var(--cms-ink); font-size: 13px; font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--cms-accent); padding-bottom: 4px; }
+.cms-content { padding: 40px 5% 80px; max-width: 1250px; }
+
+/* ---- Section heading / buttons ---- */
+.cms-section-heading { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-bottom: 26px; flex-wrap: wrap; }
+.cms-button { border: 1px solid #c9ccc3; background: #fff; color: var(--cms-ink); padding: 12px 18px; font: 700 13px "Montserrat", sans-serif; cursor: pointer; border-radius: 50px; }
+.cms-button:hover { border-color: var(--cms-accent); }
+.cms-button--primary { background: var(--cms-accent); border-color: var(--cms-accent); color: #fff; }
+.cms-button--primary:hover { opacity: 0.92; }
+.cms-button--danger { border-color: var(--cms-danger); color: var(--cms-danger); }
+.cms-button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ---- Tabs (grouping several related sections under one admin page) ---- */
+.cms-tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--cms-border); margin-bottom: 26px; flex-wrap: wrap; }
+.cms-tabs button { border: none; background: none; padding: 12px 6px; margin-bottom: -1px; font: 700 13px "Montserrat", sans-serif; color: var(--cms-muted); cursor: pointer; border-bottom: 2px solid transparent; }
+.cms-tabs button + button { margin-left: 18px; }
+.cms-tabs button:hover { color: var(--cms-ink); }
+.cms-tabs button.is-active { color: var(--cms-accent); border-bottom-color: var(--cms-accent); }
+
+/* ---- Stats / dashboard ---- */
+.cms-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+.cms-stat { background: #fff; border: 1px solid var(--cms-border); padding: 22px; border-radius: 4px; }
+.cms-stat span, .cms-stat small { display: block; color: var(--cms-muted); font-size: 12px; }
+.cms-stat strong { display: block; font: 400 36px "Rufina", serif; margin: 16px 0 6px; color: var(--cms-ink); }
+.cms-callout { background: #fff3ec; border: 1px solid #ffd9c4; margin-top: 20px; padding: 22px 26px; display: flex; align-items: center; gap: 20px; border-radius: 4px; flex-wrap: wrap; }
+.cms-callout span { font-size: 11px; text-transform: uppercase; color: #a04321; font-weight: 700; }
+.cms-callout strong { flex: 1; font-size: 14px; font-weight: 600; min-width: 220px; }
+.cms-callout a, .cms-callout button { background: none; border: 0; color: var(--cms-accent); font-weight: 700; cursor: pointer; text-decoration: none; }
+
+/* ---- Table ---- */
+.cms-table-wrap { background: #fff; border: 1px solid var(--cms-border); overflow-x: auto; border-radius: 4px; }
+.cms-table-wrap table { border-collapse: collapse; width: 100%; text-align: left; font-size: 13px; }
+.cms-table-wrap th { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--cms-muted); background: #fafaf8; }
+.cms-table-wrap th, .cms-table-wrap td { padding: 16px 18px; border-bottom: 1px solid var(--cms-border); vertical-align: middle; }
+.cms-table-wrap tr:last-child td { border-bottom: 0; }
+.cms-table-wrap td strong, .cms-table-wrap td small { display: block; }
+.cms-table-wrap td small { color: #909a95; margin-top: 4px; font-size: 11px; }
+.cms-status { color: var(--cms-success); font-size: 11px; font-weight: 700; background: var(--cms-success-bg); padding: 5px 10px; border-radius: 20px; cursor: pointer; border: 0; }
+.cms-status--muted { color: #8a6c3f; background: #f4ecd9; }
+.cms-order { display: flex; gap: 4px; }
+.cms-order button { border: 1px solid var(--cms-border); background: #fff; width: 26px; height: 26px; cursor: pointer; border-radius: 4px; }
+.cms-order button:disabled { opacity: 0.35; cursor: not-allowed; }
+.cms-actions { text-align: right; white-space: nowrap; }
+.cms-actions button { border: 0; background: none; color: var(--cms-accent); font-weight: 700; cursor: pointer; margin-left: 13px; font-size: 13px; }
+.cms-empty { background: #fff; border: 1px dashed #c7ccc4; padding: 55px; text-align: center; color: var(--cms-muted); display: grid; gap: 8px; border-radius: 4px; }
+.cms-empty strong { color: var(--cms-ink); }
+
+/* ---- Modal / form ---- */
+.cms-modal-backdrop { position: fixed; inset: 0; background: rgba(18, 4, 41, 0.65); display: grid; place-items: center; padding: 20px; z-index: 20; overflow-y: auto; }
+.cms-modal { background: #fff; width: min(700px, 100%); max-height: 90vh; overflow: auto; padding: 32px; border-radius: 6px; }
+.cms-modal__heading { display: flex; justify-content: space-between; margin-bottom: 22px; }
+.cms-modal h2 { font: 400 28px "Rufina", serif; margin-top: 8px; }
+.cms-icon-button { background: none; border: 0; font-size: 26px; cursor: pointer; color: var(--cms-muted); line-height: 1; }
+
+/* The record-editor (add/edit) modal keeps its heading and Save/Cancel
+   actions fixed in place and scrolls only the field list between them, so
+   a long form (many fields) never pushes Save/Cancel out of view — a user
+   editing just one field near the top doesn't need to scroll the whole
+   popup to save. Scoped to this modifier so the plain confirm dialog and
+   read-only detail modals (which don't have long scrolling forms) are
+   untouched. */
+.cms-modal.cms-modal--scroll { display: flex; flex-direction: column; padding: 0; overflow: hidden; }
+.cms-modal.cms-modal--scroll .cms-modal__heading { padding: 32px 32px 0; margin-bottom: 20px; flex-shrink: 0; }
+.cms-modal.cms-modal--scroll form { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.cms-modal.cms-modal--scroll .cms-modal__body { flex: 1; min-height: 0; overflow-y: auto; padding: 0 32px 4px; display: grid; gap: 16px; }
+.cms-modal.cms-modal--scroll .cms-modal__actions { flex-shrink: 0; margin-top: 0; padding: 16px 32px; border-top: 1px solid var(--cms-border); background: #fff; }
+
+/* Shared field styling — used by the record-editor modal (ResourceManager)
+   and any other in-page form (e.g. SiteSettingsPage) via className="cms-form",
+   so every admin form looks like the same product instead of the modal
+   being styled and everything else falling back to browser defaults. */
+.cms-modal form, .cms-form { display: grid; gap: 16px; min-width: 0; }
+.cms-modal label, .cms-form label, .cms-field-block { font-size: 12px; font-weight: 700; color: #42534e; display: grid; gap: 7px; }
+.cms-modal input:not([type="checkbox"]), .cms-modal textarea, .cms-modal select,
+.cms-form input:not([type="checkbox"]), .cms-form textarea, .cms-form select {
+  border: 1px solid #d6d9d2; padding: 11px; font: 14px "Montserrat", sans-serif; resize: vertical; border-radius: 4px; background: #fff; color: var(--cms-ink);
+}
+.cms-modal input:focus, .cms-modal textarea:focus, .cms-modal select:focus,
+.cms-form input:focus, .cms-form textarea:focus, .cms-form select:focus { outline: none; border-color: var(--cms-accent); }
+.cms-form-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; align-items: center; }
+.cms-check { display: flex !important; align-items: center; grid-template-columns: auto 1fr !important; gap: 7px !important; }
+.cms-check input { accent-color: var(--cms-accent); width: 16px; height: 16px; }
+.cms-field-hint { font-weight: 400; color: #8a958f; }
+.cms-field-error { display: block; font-weight: 400; color: var(--cms-danger); font-size: 12px; margin-top: 2px; }
+.cms-modal input.cms-input--invalid, .cms-modal textarea.cms-input--invalid,
+.cms-form input.cms-input--invalid, .cms-form textarea.cms-input--invalid { border-color: var(--cms-danger); }
+.cms-modal__actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px; }
+.cms-repeat-row { display: flex; gap: 8px; align-items: center; }
+.cms-repeat-row input { flex: 1; }
+.cms-repeat-remove { border: 0; background: none; color: var(--cms-danger); font-size: 20px; cursor: pointer; }
+.cms-add-row { justify-self: start; }
+
+/* ---- Rich text editor (TipTap) ---- */
+.cms-richtext { border: 1px solid #d6d9d2; border-radius: 4px; overflow: hidden; }
+.cms-richtext__toolbar { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; padding: 6px; background: #fafaf8; border-bottom: 1px solid var(--cms-border); }
+.cms-richtext__btn { border: 1px solid transparent; background: none; width: 30px; height: 30px; border-radius: 4px; cursor: pointer; font: 700 13px "Montserrat", sans-serif; color: var(--cms-ink); display: inline-flex; align-items: center; justify-content: center; }
+.cms-richtext__btn:hover { background: #fff; border-color: var(--cms-border); }
+.cms-richtext__btn.is-active { background: var(--cms-accent); color: #fff; }
+.cms-richtext__sep { width: 1px; height: 20px; background: var(--cms-border); margin: 0 4px; }
+.cms-richtext__content { padding: 14px; min-height: 140px; font: 14px "Montserrat", sans-serif; color: var(--cms-ink); }
+.cms-richtext__content:focus { outline: none; }
+.cms-richtext__content p { margin: 0 0 10px; }
+.cms-richtext__content p:last-child { margin-bottom: 0; }
+.cms-richtext__content ul, .cms-richtext__content ol { margin: 0 0 10px 22px; }
+.cms-richtext__content h2, .cms-richtext__content h3, .cms-richtext__content h4 { font-family: "Rufina", serif; font-weight: 400; margin: 0 0 10px; }
+.cms-richtext__content blockquote { border-left: 3px solid var(--cms-accent); margin: 0 0 10px; padding-left: 14px; color: var(--cms-muted); }
+.cms-richtext__content img { max-width: 100%; border-radius: 4px; margin: 8px 0; }
+.cms-richtext__content a { color: var(--cms-accent); }
+
+/* ---- Image field (og_image, logo, case study image) ---- */
+.cms-image-field { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.cms-image-field__preview { width: 72px; height: 72px; border-radius: 4px; border: 1px solid var(--cms-border); background: #fafaf8 center/cover no-repeat; flex: 0 0 72px; }
+.cms-image-field__meta { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.cms-image-field__meta small { color: var(--cms-muted); font-weight: 400; }
+
+/* ---- Cards (used by SiteSettingsPage — same white/bordered surface as
+   .cms-table-wrap and .cms-stat, so settings reads as part of the same
+   product instead of a bare, unstyled form) ---- */
+.cms-card { background: #fff; border: 1px solid var(--cms-border); border-radius: 6px; padding: 28px 30px; min-width: 0; }
+.cms-card__heading { margin-bottom: 22px; }
+.cms-card__heading .cms-kicker { display: block; margin-bottom: 8px; }
+.cms-card__heading h3 { font: 400 24px "Rufina", serif; color: var(--cms-ink); margin-bottom: 4px; }
+.cms-card__heading p { color: var(--cms-muted); font-size: 13px; }
+/* Single column — cards vary a lot in height (a two-field "General" card
+   next to a six-field "Contact information" card), and a 2-up grid left an
+   awkward gap under the short card. Stacking keeps every card full-width
+   and evenly aligned regardless of how much content it holds. */
+.cms-settings-grid { display: grid; grid-template-columns: 1fr; gap: 24px; max-width: 760px; }
+
+/* ---- Errors ---- */
+.cms-error { font-size: 12px; color: var(--cms-danger); background: var(--cms-danger-bg); padding: 10px; border-radius: 4px; }
+
+/* ---- Toasts (replaces the old inline .cms-notice + window.confirm) ---- */
+.cms-toast-stack { position: fixed; top: 24px; right: 24px; z-index: 200; display: flex; flex-direction: column; gap: 10px; width: min(380px, calc(100vw - 32px)); }
+.cms-toast { background: #fff; border: 1px solid var(--cms-border); border-left: 4px solid var(--cms-success); border-radius: 6px; padding: 14px 14px 14px 16px; box-shadow: 0 12px 30px rgba(18, 4, 41, 0.15); display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.45; animation: cms-toast-in 0.18s ease-out; }
+.cms-toast--error { border-left-color: var(--cms-danger); }
+.cms-toast__icon { flex: 0 0 auto; width: 20px; height: 20px; margin-top: 1px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; color: #fff; background: var(--cms-success); }
+.cms-toast--error .cms-toast__icon { background: var(--cms-danger); }
+.cms-toast__body { flex: 1; color: var(--cms-ink); word-break: break-word; }
+.cms-toast__close { border: 0; background: none; color: var(--cms-muted); font-size: 16px; line-height: 1; cursor: pointer; padding: 0; }
+.cms-toast__close:hover { color: var(--cms-ink); }
+@keyframes cms-toast-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ---- Confirm dialog (destructive actions, e.g. delete) ---- */
+.cms-confirm .cms-modal { width: min(420px, 100%); padding: 30px; }
+.cms-confirm h2 { font: 400 22px "Rufina", serif; margin: 0 0 12px; }
+.cms-confirm p { color: var(--cms-muted); font-size: 14px; line-height: 1.5; margin: 0 0 24px; }
+
+/* ---- Login ---- */
+.cms-login { min-height: 100vh; background: var(--cms-navy, #120429); display: grid; place-items: center; padding: 20px; font-family: "Montserrat", sans-serif; }
+.cms-login__panel { background: #f7f6f1; width: min(470px, 100%); padding: 48px; border-radius: 6px; }
+.cms-login h1 { font: 400 34px "Rufina", serif; color: var(--cms-ink); margin: 18px 0 9px; }
+.cms-login p { color: #69756e; font-size: 14px; margin-bottom: 30px; }
+.cms-login form { display: grid; gap: 17px; }
+.cms-login label { display: grid; gap: 7px; font-size: 12px; font-weight: 700; color: #42534e; }
+.cms-login input { padding: 13px; border: 1px solid #d4d8d0; background: #fff; font: 14px "Montserrat", sans-serif; border-radius: 4px; }
+.cms-login .cms-button { margin-top: 5px; }
+
+@media (max-width: 900px) {
+  .cms-form-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 720px) {
+  .cms-shell { flex-direction: column; }
+  .cms-sidebar { width: 100%; flex: none; min-height: auto; padding: 16px; flex-direction: row; align-items: center; flex-wrap: wrap; }
+  .cms-brand { padding: 0; margin-right: auto; }
+  .cms-sidebar nav { display: flex; flex-wrap: wrap; gap: 6px; }
+  .cms-view-site { margin-top: 0; border: 0; padding: 8px 12px; }
+  .cms-topbar { padding: 18px 5%; }
+  .cms-content { padding: 24px 5% 60px; }
+  .cms-section-heading { display: block; }
+  .cms-section-heading .cms-button { margin-top: 16px; }
+  .cms-stats { grid-template-columns: 1fr; }
+  .cms-form-grid { grid-template-columns: 1fr; }
+  .cms-card { padding: 20px; }
+  .cms-login__panel { padding: 30px 22px; }
+}

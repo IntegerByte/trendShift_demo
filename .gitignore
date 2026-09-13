@@ -1,0 +1,31 @@
+# Environment / secrets
+.env
+.env.local
+backend/trendshift-cms-api/.env
+
+# Python
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.Python
+
+# Django
+backend/trendshift-cms-api/db.sqlite3
+backend/trendshift-cms-api/staticfiles/
+
+# Node / frontend
+node_modules/
+dist/
+build/
+frontend/trendshift-cms-web/.vite/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log

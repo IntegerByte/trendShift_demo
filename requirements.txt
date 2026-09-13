@@ -1,0 +1,6 @@
+Django==5.1.13
+Pillow==12.3.0
+django-ckeditor-5==0.2.20
+psycopg[binary]==3.3.4
+djangorestframework==3.16.1
+django-cors-headers==4.9.0

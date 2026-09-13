@@ -1,0 +1,170 @@
+/* ==========================================================================
+   pages.css
+   Additive stylesheet for interior pages (Services, Case Studies, About,
+   Partners, Contact, Terms). Loaded AFTER style.css and never overrides or
+   redefines a selector owned by style.css, so the home page is unaffected.
+   Reuses existing design tokens (colors, fonts, spacing) from style.css.
+   ========================================================================== */
+
+/* ---- Inner page banner (lighter-weight version of .bannerdiv) ---- */
+.innerbanner {position: relative; width: 100%; background: url(/images/services-bg.png) no-repeat center; background-size: cover; padding: 190px 0 60px;}
+.innerbanner:after {position: absolute; content: ''; top: 0; left: 0; right: 0; bottom: 0; background: rgba(8, 1, 18, 0.6);}
+.innerbanner .centerdiv {position: relative; z-index: 2;}
+.innerbanner h1 {color: #fff; font-family: "Rufina", serif; font-weight: 400; font-style: normal; font-size: 48px; line-height: 54px; margin-bottom: 16px;}
+.innerbanner p.pagelede {color: #fff; opacity: 0.85; font-size: 16px; line-height: 24px; max-width: 640px; margin-bottom: 20px;}
+
+.breadcrumb {display: flex; flex-wrap: wrap; gap: 8px; align-items: center;}
+.breadcrumb a {color: #fff; opacity: 0.8; font-size: 14px; font-family: "Montserrat", sans-serif;}
+.breadcrumb a:hover {color: #FE4E16; opacity: 1;}
+.breadcrumb span {color: #FE4E16; font-size: 14px; font-family: "Montserrat", sans-serif;}
+.breadcrumb .sep {color: #fff; opacity: 0.5;}
+
+/* ---- services page shows 6 service cards, not the home page's 4, so the
+   fixed 25%-no-wrap layout from .servlist in style.css would overflow the
+   row. Only override at desktop widths — below 992px, style.css's own
+   horizontal-scroll-strip behavior for .servlist already handles any
+   number of items and must stay in charge. ---- */
+@media (min-width: 992px) {
+    .servlist-full {flex-wrap: wrap;}
+    .servlist-full li {width: 33.33%; margin-bottom: 30px;}
+}
+
+/* .serviceswrap's dark background band is a fixed height sized for a single
+   row of 4 cards. Two wrapped rows of 6 would overflow that fixed height,
+   leaving the second row's white text sitting on the plain white page
+   background below it (invisible). Let the section grow to fit instead. */
+.serviceswrap-full {height: auto;}
+
+/* ---- Generic info / process / value card grid (reuses .casetext look) ---- */
+.infogrid {display: flex; flex-wrap: wrap; margin: 0 -15px;}
+.infogrid li {width: 33.33%; padding: 0 15px; margin-bottom: 30px;}
+.infogrid .infoicon {width: 34px; margin-bottom: 20px;}
+.infogrid .casetext {min-height: 100%;}
+.infogrid .casetext .h2heading {min-height: 1px; margin-bottom: 15px;}
+.infogrid .casetext p {min-height: 1px;}
+
+/* ---- Two column intro text block reused across interior pages ---- */
+.pageintro p + p {margin-top: 15px;}
+
+/* ---- Two-column CTA band (detail pages) — light background, so .smbtn a
+   needs the same dark-text-by-default / white-on-hover override that
+   .casetext and .teamlist already use for buttons on light sections. ---- */
+.ctawrap {border-top: 1px solid #EBEBEB;}
+.ctawrap .smrow > div p {margin: 10px 0 20px;}
+.ctawrap .smbtn a {color: #000;}
+.ctawrap .smbtn a:hover {color: #fff;}
+
+/* ---- Contact page layout ---- */
+.contactgrid {display: flex; flex-wrap: wrap; margin: 0 -15px;}
+.contactgrid > div {width: 50%; padding: 0 15px;}
+.contactinfo-card {border: 1px solid #EBEBEB; padding: 40px; height: 100%;}
+.contactinfo-card ul li {display: flex; gap: 16px; align-items: flex-start; margin-bottom: 28px;}
+.contactinfo-card ul li:last-child {margin-bottom: 0;}
+.contactinfo-card ul li img, .contactinfo-card ul li svg {width: 22px; flex: 0 0 22px; margin-top: 4px;}
+.contactinfo-card ul li h3 {font-size: 15px; font-family: "Montserrat", sans-serif; font-weight: 600; margin-bottom: 4px; color: #000;}
+.contactinfo-card ul li p, .contactinfo-card ul li a {font-size: 15px; font-family: "Montserrat", sans-serif; color: #444; line-height: 22px;}
+.contactinfo-card ul li a:hover {color: #FE4E16;}
+
+/* ---- Forms (contact + comments share these rules) ---- */
+.formrow {display: flex; flex-wrap: wrap; margin: 0 -10px;}
+.formrow .formgroup {width: 50%; padding: 0 10px;}
+.formgroup {margin-bottom: 20px;}
+.formgroup.full {width: 100%;}
+.formgroup label {display: block; font-size: 14px; font-family: "Montserrat", sans-serif; font-weight: 600; color: #000; margin-bottom: 8px;}
+.formgroup .req {color: #FE4E16;}
+.formgroup input[type="text"],
+.formgroup input[type="email"],
+.formgroup input[type="tel"],
+.formgroup textarea {width: 100%; border: 1px solid #DADADA; border-radius: 4px; padding: 13px 16px; font-size: 14px; font-family: "Montserrat", sans-serif; color: #000; background: #fff;}
+.formgroup input:focus, .formgroup textarea:focus {border-color: #FE4E16;}
+.formgroup textarea {resize: vertical; min-height: 120px;}
+.field-error {display: block; min-height: 18px; color: #d0281e; font-size: 12px; font-family: "Montserrat", sans-serif; margin-top: 6px;}
+
+/* Honeypot field: hidden from sighted users and keyboard tab order, but still
+   present in the DOM to trap automated form-filling bots. Not display:none /
+   visibility:hidden, since some bots skip fields hidden that way. */
+.hp-field {position: absolute; left: -5000px; width: 1px; height: 1px; overflow: hidden;}
+
+.captcha-group .captcha-row {display: flex; align-items: center; gap: 14px; flex-wrap: wrap;}
+.captcha-group .captcha-question {display: inline-flex; align-items: center; height: 48px; padding: 0 18px; border-radius: 4px; background: #F5F5F5; font-weight: 600; font-size: 15px; white-space: nowrap;}
+.captcha-group input {max-width: 140px;}
+
+/* Form submit buttons sit on white/light sections, so — unlike the default
+   white-text .smbtn a used over dark hero/banner backgrounds — these need
+   dark text by default, flipping to white once the hover fill is orange. */
+.smbtn button {height: 50px; padding: 0 30px; display: flex; font-family: "Montserrat", sans-serif; align-items: center; justify-content: center; border: 1px solid #FE4E16; border-radius: 50px; color: #000; background: transparent; text-transform: uppercase; font-size: 14px; font-weight: bold; cursor: pointer;}
+.smbtn button:hover {background: #FE4E16; color: #fff;}
+.smbtn button:disabled {opacity: 0.6; cursor: not-allowed;}
+
+.form-alert {border-radius: 4px; padding: 16px 18px; font-size: 14px; font-family: "Montserrat", sans-serif; margin-bottom: 20px;}
+.form-alert.success {background: #EAF7EE; color: #1E7B34; border: 1px solid #BEE6C8;}
+.form-alert.error {background: #FCEAEA; color: #B3261E; border: 1px solid #F3C6C4;}
+.form-alert[hidden] {display: none;}
+
+/* ---- Comments section ---- */
+.commentswrap .smheading {margin-bottom: 40px;}
+.commentlist {margin-bottom: 50px;}
+.commentitem {display: flex; gap: 18px; padding: 25px 0; border-bottom: 1px solid #EBEBEB;}
+.commentitem:first-child {padding-top: 0;}
+.commentavatar {flex: 0 0 48px; width: 48px; height: 48px; border-radius: 100%; background: #100224; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; font-family: "Montserrat", sans-serif;}
+.commentbody h3 {font-size: 15px; font-family: "Montserrat", sans-serif; font-weight: 600; color: #000; margin-bottom: 4px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap;}
+.commentbody h3 span {font-weight: normal; font-size: 12px; color: #888; text-transform: none;}
+.commentbody p {font-size: 14px; line-height: 21px; color: #444; font-family: "Montserrat", sans-serif;}
+.commentempty {font-size: 14px; color: #888; font-family: "Montserrat", sans-serif;}
+.commentform h3.formtitle {font-size: 18px; font-family: "Montserrat", sans-serif; font-weight: 600; margin-bottom: 20px; color: #000;}
+
+/* ---- Legal / terms content ---- */
+.legalcontent {max-width: 980px;}
+.legalcontent .updated {font-size: 14px; color: #888; font-family: "Montserrat", sans-serif; margin-bottom: 40px;}
+.legalcontent section {margin-bottom: 40px;}
+.legalcontent section:last-child {margin-bottom: 0;}
+.legalcontent h2 {color: #000; line-height: 32px; font-size: 24px; font-family: "Rufina", serif; font-weight: 400; margin-bottom: 15px;}
+.legalcontent p {font-size: 15px; line-height: 24px; font-family: "Montserrat", sans-serif; color: #333; margin-bottom: 12px;}
+.legalcontent p:last-child {margin-bottom: 0;}
+.legalcontent ol, .legalcontent ul {margin: 0 0 12px 20px; list-style: decimal;}
+.legalcontent ul {list-style: disc;}
+.legalcontent li {font-size: 15px; line-height: 24px; font-family: "Montserrat", sans-serif; color: #333; margin-bottom: 6px;}
+
+/* ---- API loading/empty/error states (useResource + StateMessage) ---- */
+.state-message {width: 100%; padding: 40px 30px; text-align: center; font-size: 15px; font-family: "Montserrat", sans-serif; color: #666; border: 1px dashed #DADADA; border-radius: 4px;}
+.state-message strong {display: block; color: #000; font-size: 16px; margin-bottom: 6px;}
+.state-message--error {border-color: #F3C6C4; color: #B3261E; background: #FCEAEA;}
+.state-message--error strong {color: #B3261E;}
+.state-message--loading {border-style: solid; color: #888;}
+
+/* ==========================================================================
+   Responsive breakpoints — mirrors the breakpoints already used in style.css
+   so interior pages scale down in step with the home page.
+   ========================================================================== */
+@media (max-width: 1488px) {
+    .innerbanner {padding: 160px 0 45px;}
+    .innerbanner h1 {font-size: 38px; line-height: 44px; margin-bottom: 12px;}
+}
+
+@media (max-width: 1199px) {
+    .innerbanner {padding: 140px 0 40px;}
+    .innerbanner h1 {font-size: 32px; line-height: 38px;}
+    .contactinfo-card {padding: 25px;}
+}
+
+@media (max-width: 991px) {
+    .innerbanner {padding: 110px 0 30px;}
+    .innerbanner h1 {font-size: 24px; line-height: 30px; margin-bottom: 8px;}
+    .innerbanner p.pagelede {font-size: 13px; line-height: 20px;}
+    .infogrid li {width: 50%;}
+    .contactgrid > div {width: 100%;}
+    .contactgrid > div + div {margin-top: 20px;}
+    .formrow .formgroup {width: 100%;}
+    .commentavatar {flex: 0 0 40px; width: 40px; height: 40px; font-size: 12px;}
+}
+
+@media (max-width: 767px) {
+    .infogrid li {width: 100%;}
+    .captcha-group .captcha-row {gap: 10px;}
+    .commentitem {gap: 12px;}
+}
+
+@media (max-width: 575px) {
+    .innerbanner h1 {font-size: 20px; line-height: 26px;}
+    .breadcrumb a, .breadcrumb span {font-size: 12px;}
+}
