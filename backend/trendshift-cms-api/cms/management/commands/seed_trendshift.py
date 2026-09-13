@@ -347,7 +347,7 @@ class Command(BaseCommand):
                 name=name,
                 defaults={'role': role, 'display_order': order, 'is_visible': True},
             )
-            if not member.photo:
+            if not member.photo or not member.photo.storage.exists(member.photo.name):
                 photo = seed_image_file(image_file)
                 if photo:
                     member.photo.save(image_file, photo, save=True)
@@ -372,7 +372,7 @@ class Command(BaseCommand):
                 name=name,
                 defaults={'display_order': order, 'is_visible': True},
             )
-            if not partner.logo:
+            if not partner.logo or not partner.logo.storage.exists(partner.logo.name):
                 logo = seed_image_file(image_file)
                 if logo:
                     partner.logo.save(image_file, logo, save=True)
