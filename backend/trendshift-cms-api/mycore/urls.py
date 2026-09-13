@@ -1,7 +1,7 @@
 from django.conf import settings
-from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
+from django.views.static import serve as serve_static
 from rest_framework.authtoken.views import obtain_auth_token
 
 # Django Admin (admin/) is a superuser/developer fallback only — the React
@@ -14,4 +14,9 @@ urlpatterns = [
     path('api/v1/', include('cms.api.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('api/v1/auth/token/', obtain_auth_token, name='token-login'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # django.conf.urls.static.static() is a no-op outside DEBUG, and there's
+    # no object storage backing MEDIA_ROOT here, so serve it directly. Fine
+    # for this deployment's scale; move to S3/R2 + django-storages before
+    # this needs to handle real production traffic.
+    re_path(r'^media/(?P<path>.*)$', serve_static, {'document_root': settings.MEDIA_ROOT}),
+]
