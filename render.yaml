@@ -15,7 +15,7 @@ services:
       python manage.py collectstatic --noinput &&
       python manage.py migrate &&
       python manage.py seed_trendshift &&
-      (python manage.py createsuperuser --noinput || true)
+      python manage.py ensure_superuser
     startCommand: gunicorn mycore.wsgi:application
     envVars:
       - key: DJANGO_SECRET_KEY
@@ -32,11 +32,12 @@ services:
         fromDatabase:
           name: trendshift-db
           property: connectionString
-      # No free-plan Shell access, so the initial superuser is created via
-      # this build-time command instead. Fill these in on the Render
-      # dashboard (Environment tab) rather than committing real values here
-      # -- `sync: false` makes Render prompt for them instead of storing
-      # them in this file.
+      # No free-plan Shell access, so the superuser is created/reset via
+      # this build-time command instead -- change DJANGO_SUPERUSER_PASSWORD
+      # below and redeploy any time to reset a forgotten password. Fill
+      # these in on the Render dashboard (Environment tab) rather than
+      # committing real values here -- `sync: false` makes Render prompt
+      # for them instead of storing them in this file.
       - key: DJANGO_SUPERUSER_USERNAME
         sync: false
       - key: DJANGO_SUPERUSER_EMAIL
