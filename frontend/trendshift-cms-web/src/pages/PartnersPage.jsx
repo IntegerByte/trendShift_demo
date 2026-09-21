@@ -1,10 +1,9 @@
 import SEO from "../components/seo/SEO";
 import InnerBanner from "../components/common/InnerBanner";
 import SectionHeading from "../components/common/SectionHeading";
-import PartnerLogo from "../components/cards/PartnerLogo";
+import PartnerLogo, { PartnerLogoSkeleton } from "../components/cards/PartnerLogo";
 import StateMessage from "../components/common/StateMessage";
 import PageIntro from "../components/common/PageIntro";
-import { PARTNERS } from "../data/partners";
 import { useResource } from "../hooks/useResource";
 
 const BREADCRUMB = [{ label: "Home", to: "/" }, { label: "Partners" }];
@@ -15,12 +14,10 @@ const FALLBACK_TITLE = "Partners";
 const FALLBACK_LEDE = "We work alongside best-in-class technology platforms to deliver integrated, reliable solutions for our clients.";
 
 // "Why we partner" body comes from the CMS `pages` resource (slug
-// "partners"); the logo grid comes from the `partners` resource (static
-// data/partners.js stays only as an offline fallback).
+// "partners"); the logo grid comes from the `partners` resource.
 export default function PartnersPage() {
   const { status, data: page } = useResource("pages", { id: "partners" });
   const partners = useResource("partners");
-  const partnerLogos = partners.status === "ready" ? partners.data : PARTNERS.map((p) => ({ name: p.name, logo: p.image }));
 
   return (
     <>
@@ -49,9 +46,15 @@ export default function PartnersPage() {
         <div className="centerdiv clearfix">
           <SectionHeading>Our partners</SectionHeading>
           <ul className="partnerlist">
-            {partnerLogos.map((partner) => (
-              <PartnerLogo key={partner.name} name={partner.name} image={partner.logo} />
-            ))}
+            {partners.status === "loading" ? (
+              Array.from({ length: 12 }).map((_, i) => (
+                <PartnerLogoSkeleton key={`partner-skel-${i}`} />
+              ))
+            ) : (
+              (partners.data || []).map((partner) => (
+                <PartnerLogo key={partner.id || partner.name} name={partner.name} image={partner.logo} />
+              ))
+            )}
           </ul>
         </div>
       </section>

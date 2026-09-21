@@ -13,6 +13,16 @@ export default function PartnerLogo({ name, image }) {
   );
 }
 
+export function PartnerLogoSkeleton() {
+  return (
+    <li>
+      <div className="pardiv partner-skeleton-item" aria-hidden="true">
+        <div className="partner-skeleton-box" />
+      </div>
+    </li>
+  );
+}
+
 PartnerLogo.propTypes = {
   name: PropTypes.string.isRequired,
   image: PropTypes.string,

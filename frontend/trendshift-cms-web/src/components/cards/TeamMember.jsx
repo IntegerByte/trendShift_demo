@@ -16,6 +16,20 @@ export default function TeamMember({ name, role, image, imageAlt }) {
   );
 }
 
+export function TeamMemberSkeleton() {
+  return (
+    <div className="collaborating team-skeleton-card" aria-hidden="true">
+      <figure>
+        <div className="team-skeleton-img" />
+      </figure>
+      <div className="teamtext">
+        <div className="team-skeleton-line team-skeleton-line--title" />
+        <div className="team-skeleton-line team-skeleton-line--role" />
+      </div>
+    </div>
+  );
+}
+
 TeamMember.propTypes = {
   name: PropTypes.string.isRequired,
   role: PropTypes.string,
