@@ -81,7 +81,8 @@ ul.teamlist li .team {width: 576px;}
 ul.teamlist li .team .smbtn a {color: #000;}
 ul.teamlist li .team .smbtn a:hover{color: #fff;}
 .teammember {display: flex; justify-content: space-between;}
-.collaborating{border: 1px solid #FFFFFF; width: 48%;}
+/* .collaborating{border: 1px solid #FFFFFF; width: 48%;} */
+.collaborating{width: 48%;}
 .collaborating figure {padding: 10px 20px 0; display: flex; justify-content: center; border-bottom: 1px solid #fff;}
 .teamtext{padding: 20px;}
 .collaborating .teamtext h3{font-size: 16px; font-weight: 600; color: #000000;font-family: "Montserrat", sans-serif; margin-bottom: 5px;}

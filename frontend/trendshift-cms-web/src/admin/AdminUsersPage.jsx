@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { cmsApi } from "../services/cmsApi";
 import { useToast } from "./ToastContext";
 import { useAuth } from "./AuthContext";
@@ -86,6 +87,19 @@ function UserForm({ initial, onSave, onSaved, onClose }) {
     </div>
   );
 }
+
+UserForm.propTypes = {
+  initial: PropTypes.shape({
+    __id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    username: PropTypes.string,
+    email: PropTypes.string,
+    role: PropTypes.string,
+    is_active: PropTypes.bool,
+  }).isRequired,
+  onSave: PropTypes.func.isRequired,
+  onSaved: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 export default function AdminUsersPage() {
   const toast = useToast();

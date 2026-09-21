@@ -65,6 +65,22 @@
 .contactinfo-card ul li p, .contactinfo-card ul li a {font-size: 15px; font-family: "Montserrat", sans-serif; color: #444; line-height: 22px;}
 .contactinfo-card ul li a:hover {color: #FE4E16;}
 
+/* Skeleton shimmer for contact details during loading */
+.contact-loading-skeleton {
+  display: inline-block;
+  height: 18px;
+  background: linear-gradient(90deg, #f0ede8 25%, #e2ded8 50%, #f0ede8 75%);
+  background-size: 200% 100%;
+  animation: contact-skeleton-shimmer 1.5s infinite ease-in-out;
+  border-radius: 4px;
+  margin-top: 2px;
+}
+
+@keyframes contact-skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 /* ---- Forms (contact + comments share these rules) ---- */
 .formrow {display: flex; flex-wrap: wrap; margin: 0 -10px;}
 .formrow .formgroup {width: 50%; padding: 0 10px;}

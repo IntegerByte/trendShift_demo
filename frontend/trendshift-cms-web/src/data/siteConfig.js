@@ -5,8 +5,8 @@
 export const SITE_NAME = "TrendShift";
 
 export const BUSINESS = {
-  address: "976 Castleton Avenue Staten Island, New York, 10310",
-  addressLine1: "976 Castleton Avenue, Staten Island, New York, 10310",
+  address: "426 MAIN STREET SUITE 135 SPOTWOOD, NEW JERSEY 08884",
+  addressLine1: "426 MAIN STREET SUITE 135 SPOTWOOD, NEW JERSEY 08884",
   phoneDisplay: "+(201) 444-9362",
   phoneHref: "tel:+(201) 444-9362",
   // TODO: replace with the organization's real inbox before launch
