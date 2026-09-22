@@ -2,7 +2,6 @@ import SEO from "../components/seo/SEO";
 import InnerBanner from "../components/common/InnerBanner";
 import SectionHeading from "../components/common/SectionHeading";
 import ContactForm from "../components/forms/ContactForm";
-import { BUSINESS } from "../data/siteConfig";
 import { useResource } from "../hooks/useResource";
 
 const BREADCRUMB = [{ label: "Home", to: "/" }, { label: "Contact" }];
@@ -12,12 +11,13 @@ const BREADCRUMB = [{ label: "Home", to: "/" }, { label: "Contact" }];
 // back to static data while loading/offline so the page is never blank.
 export default function ContactPage() {
   const { status, data } = useResource("contact");
+  const isLoading = status === "loading";
   const contact = status === "ready" ? data[0] : null;
-  const address = contact?.address || BUSINESS.addressLine1;
-  const phone = contact?.phone || BUSINESS.phoneDisplay;
-  const phoneHref = contact?.phone ? `tel:${contact.phone}` : BUSINESS.phoneHref;
-  const email = contact?.email || BUSINESS.email;
-  const hours = contact?.business_hours || BUSINESS.hours;
+  const address = contact?.address;
+  const phone = contact?.phone;
+  const phoneHref = contact?.phone ? `tel:${contact.phone}` : null;
+  const email = contact?.email;
+  const hours = contact?.business_hours;
 
   const { status: pageStatus, data: page } = useResource("pages", { id: "contact" });
 
@@ -49,7 +49,11 @@ export default function ContactPage() {
                     </svg>
                     <div>
                       <h3>Address</h3>
-                      <p>{address}</p>
+                      {isLoading ? (
+                        <span className="contact-loading-skeleton" style={{ width: "240px", maxWidth: "100%" }} aria-label="Loading address" />
+                      ) : (
+                        <p>{address || "Address not available"}</p>
+                      )}
                     </div>
                   </li>
                   <li>
@@ -58,7 +62,13 @@ export default function ContactPage() {
                     </svg>
                     <div>
                       <h3>Phone</h3>
-                      <a href={phoneHref}>{phone}</a>
+                      {isLoading ? (
+                        <span className="contact-loading-skeleton" style={{ width: "150px", maxWidth: "100%" }} aria-label="Loading phone number" />
+                      ) : phone ? (
+                        <a href={phoneHref}>{phone}</a>
+                      ) : (
+                        <p>Phone not available</p>
+                      )}
                     </div>
                   </li>
                   <li>
@@ -68,7 +78,13 @@ export default function ContactPage() {
                     </svg>
                     <div>
                       <h3>Email</h3>
-                      <a href={`mailto:${email}`}>{email}</a>
+                      {isLoading ? (
+                        <span className="contact-loading-skeleton" style={{ width: "180px", maxWidth: "100%" }} aria-label="Loading email" />
+                      ) : email ? (
+                        <a href={`mailto:${email}`}>{email}</a>
+                      ) : (
+                        <p>Email not available</p>
+                      )}
                     </div>
                   </li>
                   <li>
@@ -78,7 +94,11 @@ export default function ContactPage() {
                     </svg>
                     <div>
                       <h3>Business hours</h3>
-                      <p>{hours}</p>
+                      {isLoading ? (
+                        <span className="contact-loading-skeleton" style={{ width: "220px", maxWidth: "100%" }} aria-label="Loading business hours" />
+                      ) : (
+                        <p>{hours || "Not available"}</p>
+                      )}
                     </div>
                   </li>
                 </ul>

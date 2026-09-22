@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { cmsApi } from "../services/cmsApi";
 import { useToast } from "./ToastContext";
 import { useAuth } from "./AuthContext";
+import FileUpload from "./FileUpload";
 
 const TABS = [
   { key: "general", label: "General" },
@@ -209,22 +210,14 @@ export default function SiteSettingsPage() {
             <form className="cms-form" onSubmit={(event) => submit(event, configuration, "Site configuration")}>
               <div className="cms-field-block">
                 <label htmlFor="site-logo-upload">Logo</label>
-                <div className="cms-image-field">
-                  <div
-                    className="cms-image-field__preview"
-                    style={
-                      logoFile
-                        ? { backgroundImage: `url(${URL.createObjectURL(logoFile)})` }
-                        : configuration.record?.logo
-                          ? { backgroundImage: `url(${configuration.record.logo})` }
-                          : undefined
-                    }
-                  />
-                  <div className="cms-image-field__meta">
-                    <input id="site-logo-upload" type="file" accept="image/*" onChange={(event) => setLogoFile(event.target.files?.[0] || null)} disabled={readOnly} />
-                    <small>JPG, PNG, GIF or WebP, up to 8MB.</small>
-                  </div>
-                </div>
+                <FileUpload
+                  id="site-logo-upload"
+                  currentUrl={configuration.record?.logo}
+                  file={logoFile}
+                  onChange={setLogoFile}
+                  disabled={readOnly}
+                  hint="PNG, SVG, JPG or WebP recommended. Transparent background works best."
+                />
               </div>
               <TextField label="Address (footer)" value={configuration.form.address} onChange={(v) => configuration.setForm({ ...configuration.form, address: v })} textarea disabled={readOnly} />
               <TextField

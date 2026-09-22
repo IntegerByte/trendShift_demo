@@ -92,11 +92,36 @@ ul.teamlist li .team {width: 576px;}
 ul.teamlist li .team .smbtn a {color: #000;}
 ul.teamlist li .team .smbtn a:hover{color: #fff;}
 .teammember {display: flex; justify-content: space-between;}
-.collaborating{border: 1px solid #FFFFFF; width: 48%;}
-.collaborating figure {padding: 10px 20px 0; display: flex; justify-content: center; border-bottom: 1px solid #fff;}
+/* .collaborating{border: 1px solid #FFFFFF; width: 48%;} */
+.collaborating {width: 48%;}
+.collaborating figure {padding: 10px 20px 0; display: flex; justify-content: center; }
 .teamtext{padding: 20px;}
 .collaborating .teamtext h3{font-size: 16px; font-weight: 600; color: #000000;font-family: "Montserrat", sans-serif; margin-bottom: 5px;}
 .teamtext p {font-size: 16px; font-weight: normal;}
+
+/* ---- Team Skeleton Placeholder ---- */
+.team-skeleton-card { pointer-events: none; }
+.team-skeleton-img {
+  width: 100%;
+  height: 240px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.35) 25%, rgba(255, 255, 255, 0.65) 50%, rgba(255, 255, 255, 0.35) 75%);
+  background-size: 200% 100%;
+  animation: team-skeleton-shimmer 1.5s infinite ease-in-out;
+  border-radius: 6px;
+}
+.team-skeleton-line {
+  height: 16px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.35) 25%, rgba(255, 255, 255, 0.65) 50%, rgba(255, 255, 255, 0.35) 75%);
+  background-size: 200% 100%;
+  animation: team-skeleton-shimmer 1.5s infinite ease-in-out;
+  border-radius: 4px;
+}
+.team-skeleton-line--title { width: 70%; margin-bottom: 8px; }
+.team-skeleton-line--role { width: 45%; }
+@keyframes team-skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
 
 ul.partnerlist {display: flex; flex-wrap: wrap; border-top: 1px solid rgba(0, 0, 0, 0.10); border-left: 1px solid rgba(0, 0, 0, 0.10);}
 ul.partnerlist li {width: 16.6666666667%;border-right: 1px solid rgba(0, 0, 0, 0.10); border-bottom: 1px solid rgba(0, 0, 0, 0.10);}

@@ -3,11 +3,10 @@ import SEO from "../components/seo/SEO";
 import SectionHeading from "../components/common/SectionHeading";
 import ServiceCard from "../components/cards/ServiceCard";
 import CaseStudyCard from "../components/cards/CaseStudyCard";
-import TeamMember from "../components/cards/TeamMember";
+import TeamMember, { TeamMemberSkeleton } from "../components/cards/TeamMember";
 import PartnerLogo from "../components/cards/PartnerLogo";
 import StateMessage from "../components/common/StateMessage";
 import PageIntro from "../components/common/PageIntro";
-import { TEAM } from "../data/team";
 import { PARTNERS } from "../data/partners";
 import { useResource } from "../hooks/useResource";
 
@@ -24,7 +23,7 @@ const HERO_FALLBACK_LEDE =
 // Hero heading/lede and the "About us" body come from the CMS `pages`
 // resource (slug "home") so they're editable through React Admin; Services,
 // Case studies, Team and Partners each pull from their own CMS resource
-// (static data/team.js + data/partners.js stay only as offline fallbacks).
+// (static data/partners.js stays only as an offline fallback).
 export default function HomePage() {
   const page = useResource("pages", { id: "home" });
   const expertise = useResource("expertise");
@@ -33,7 +32,6 @@ export default function HomePage() {
   const partners = useResource("partners");
   const homeServices = expertise.status === "ready" ? expertise.data.slice(0, 4) : [];
   const homeCaseStudies = caseStudies.status === "ready" ? caseStudies.data.slice(0, 3) : [];
-  const teamMembers = team.status === "ready" ? team.data : TEAM.map((m) => ({ name: m.name, role: m.role, photo: m.image }));
   const partnerLogos = partners.status === "ready" ? partners.data : PARTNERS.map((p) => ({ name: p.name, logo: p.image }));
 
   return (
@@ -129,9 +127,22 @@ export default function HomePage() {
             </li>
             <li>
               <div className="teammember">
-                {teamMembers.map((member) => (
-                  <TeamMember key={member.name} name={member.name} role={member.role} image={member.photo} imageAlt={member.name} />
-                ))}
+                {team.status === "loading" ? (
+                  <>
+                    <TeamMemberSkeleton />
+                    <TeamMemberSkeleton />
+                  </>
+                ) : (
+                  (team.data || []).map((member) => (
+                    <TeamMember
+                      key={member.id || member.name}
+                      name={member.name}
+                      role={member.role}
+                      image={member.photo}
+                      imageAlt={member.name}
+                    />
+                  ))
+                )}
               </div>
             </li>
           </ul>

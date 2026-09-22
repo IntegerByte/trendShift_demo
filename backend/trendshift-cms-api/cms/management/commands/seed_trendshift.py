@@ -207,8 +207,8 @@ PAGES = [
         'without regard to its conflict of law provisions.</p>'
         '<h2>10. Contact us</h2>'
         '<p>Questions about these Terms can be sent to us via the <a href="/contact">Contact page</a>, by '
-        'phone at <a href="tel:+(201) 444-9362">+(201) 444-9362</a>, or by mail to 976 Castleton Avenue, '
-        'Staten Island, New York, 10310.</p>'
+        'phone at <a href="tel:+(201) 444-9362">+(201) 444-9362</a>, or by mail to 426 MAIN STREET SUITE 135 SPOTWOOD, '
+        'NEW JERSEY 08884.</p>'
         '<p><em>This page is a general template and does not constitute legal advice. Please have qualified '
         'legal counsel review and finalize these Terms before relying on them.</em></p>',
     ),
@@ -264,116 +264,138 @@ class Command(BaseCommand):
     help = 'Create or update initial Trendshift content: expertise areas, case studies, navigation and site identity.'
 
     def handle(self, *args, **options):
-        for order, (title, capabilities) in enumerate(EXPERTISE):
-            url_key = slugify(title)
-            area, _ = ExpertiseArea.objects.update_or_create(
-                url_key=url_key,
-                defaults={
-                    'title': title,
-                    'url_key': url_key,
-                    'description': '',
-                    'display_order': order,
-                    'is_published': True,
-                    'is_featured': order < 3,
-                },
-            )
-            area.capabilities.all().delete()
-            ExpertiseCapability.objects.bulk_create([
-                ExpertiseCapability(expertise_area=area, title=capability, display_order=index)
-                for index, capability in enumerate(capabilities)
-            ])
-        self.stdout.write(self.style.SUCCESS('Seeded 10 Trendshift expertise areas.'))
+        if not ExpertiseArea.objects.exists():
+            for order, (title, capabilities) in enumerate(EXPERTISE):
+                url_key = slugify(title)
+                area = ExpertiseArea.objects.create(
+                    title=title,
+                    url_key=url_key,
+                    description='',
+                    display_order=order,
+                    is_published=True,
+                    is_featured=order < 3,
+                )
+                ExpertiseCapability.objects.bulk_create([
+                    ExpertiseCapability(expertise_area=area, title=capability, display_order=index)
+                    for index, capability in enumerate(capabilities)
+                ])
+            self.stdout.write(self.style.SUCCESS('Seeded 10 Trendshift expertise areas.'))
+        else:
+            self.stdout.write('Expertise areas already exist, skipping seed.')
 
-        for title, description, challenge, approach, outcome in CASE_STUDIES:
-            url_key = slugify(title)
-            CaseStudy.objects.update_or_create(
-                url_key=url_key,
-                defaults={
-                    'title': title,
-                    'url_key': url_key,
-                    'short_description': description,
-                    'description': description,
-                    'challenge': f'<p>{challenge}</p>',
-                    'approach': f'<p>{approach}</p>',
-                    'outcome': f'<p>{outcome}</p>',
-                    'is_enabled': True,
-                },
-            )
-        self.stdout.write(self.style.SUCCESS('Seeded case studies.'))
+        if not CaseStudy.objects.exists():
+            for title, description, challenge, approach, outcome in CASE_STUDIES:
+                url_key = slugify(title)
+                CaseStudy.objects.create(
+                    title=title,
+                    url_key=url_key,
+                    short_description=description,
+                    description=description,
+                    challenge=f'<p>{challenge}</p>',
+                    approach=f'<p>{approach}</p>',
+                    outcome=f'<p>{outcome}</p>',
+                    is_enabled=True,
+                )
+            self.stdout.write(self.style.SUCCESS('Seeded case studies.'))
+        else:
+            self.stdout.write('Case studies already exist, skipping seed.')
 
         for url_key, title, short_description, description in PAGES:
-            Page.objects.update_or_create(
+            Page.objects.get_or_create(
                 url_key=url_key,
                 defaults={
                     'title': title,
-                    'url_key': url_key,
                     'short_description': short_description,
                     'description': description,
                     'is_enabled': True,
                 },
             )
-        self.stdout.write(self.style.SUCCESS('Seeded pages (home, services, case-studies, contact, team, about, partners, terms).'))
+        self.stdout.write(self.style.SUCCESS('Seeded/verified pages.'))
 
-        seeded_urls = {url for _, url, _ in NAVIGATION}
-        NavigationItem.objects.exclude(url__in=seeded_urls).delete()
-        for order, (label, url, placement) in enumerate(NAVIGATION):
-            NavigationItem.objects.update_or_create(
-                url=url,
-                defaults={'label': label, 'display_order': order, 'is_visible': True, 'placement': placement},
+        if not NavigationItem.objects.exists():
+            for order, (label, url, placement) in enumerate(NAVIGATION):
+                NavigationItem.objects.create(
+                    url=url,
+                    label=label,
+                    display_order=order,
+                    is_visible=True,
+                    placement=placement,
+                )
+            self.stdout.write(self.style.SUCCESS('Seeded navigation.'))
+        else:
+            self.stdout.write('Navigation items already exist, skipping seed.')
+
+        if not ContactInformation.objects.exists():
+            ContactInformation.objects.create(
+                business_name='TrendShift',
+                email='hello@trendshift.com',
+                phone='+(201) 444-9362',
+                address='426 MAIN STREET SUITE 135 SPOTWOOD, NEW JERSEY 08884',
+                business_hours='Monday – Friday, 9:00 AM – 6:00 PM (EST)',
+                is_enabled=True,
             )
-        self.stdout.write(self.style.SUCCESS('Seeded navigation.'))
+            self.stdout.write(self.style.SUCCESS('Seeded contact information.'))
+        else:
+            self.stdout.write('Contact information already exists, skipping seed.')
 
-        contact, _ = ContactInformation.objects.get_or_create(
-            business_name='TrendShift',
-            defaults={
-                'email': 'hello@trendshift.com',
-                'phone': '+(201) 444-9362',
-                'address': '976 Castleton Avenue, Staten Island, New York, 10310',
-                'business_hours': 'Monday – Friday, 9:00 AM – 6:00 PM (EST)',
-                'is_enabled': True,
-            },
-        )
-        if not contact.business_hours:
-            contact.business_hours = 'Monday – Friday, 9:00 AM – 6:00 PM (EST)'
-            contact.save(update_fields=['business_hours'])
-        SiteConfiguration.objects.get_or_create(
-            copyright_text='© 2026 TrendShift. All Rights Reserved.',
-            defaults={'address': '976 Castleton Avenue Staten Island, New York, 10310'},
-        )
-        self.stdout.write(self.style.SUCCESS('Seeded contact information and site configuration.'))
-
-        for order, (name, role, image_file) in enumerate(TEAM):
-            member, _ = TeamMember.objects.update_or_create(
-                name=name,
-                defaults={'role': role, 'display_order': order, 'is_visible': True},
+        if not SiteConfiguration.objects.exists():
+            SiteConfiguration.objects.create(
+                copyright_text='© 2026 TrendShift. All Rights Reserved.',
+                address='426 MAIN STREET SUITE 135 SPOTWOOD, NEW JERSEY 08884',
             )
-            if not member.photo or not member.photo.storage.exists(member.photo.name):
+            self.stdout.write(self.style.SUCCESS('Seeded site configuration.'))
+        else:
+            self.stdout.write('Site configuration already exists, skipping seed.')
+
+        if not TeamMember.objects.exists():
+            for order, (name, role, image_file) in enumerate(TEAM):
+                member = TeamMember.objects.create(
+                    name=name,
+                    role=role,
+                    display_order=order,
+                    is_visible=True,
+                )
                 photo = seed_image_file(image_file)
                 if photo:
                     member.photo.save(image_file, photo, save=True)
-        self.stdout.write(self.style.SUCCESS('Seeded team members.'))
+            self.stdout.write(self.style.SUCCESS('Seeded team members.'))
+        else:
+            self.stdout.write('Team members already exist, skipping seed.')
 
-        for order, (title, description) in enumerate(VALUES):
-            ValueCard.objects.update_or_create(
-                title=title,
-                defaults={'description': description, 'display_order': order, 'is_visible': True},
-            )
-        self.stdout.write(self.style.SUCCESS('Seeded mission/vision/values.'))
+        if not ValueCard.objects.exists():
+            for order, (title, description) in enumerate(VALUES):
+                ValueCard.objects.create(
+                    title=title,
+                    description=description,
+                    display_order=order,
+                    is_visible=True,
+                )
+            self.stdout.write(self.style.SUCCESS('Seeded mission/vision/values.'))
+        else:
+            self.stdout.write('Mission/vision/values already exist, skipping seed.')
 
-        for order, (title, description) in enumerate(PROCESS_STEPS):
-            ProcessStep.objects.update_or_create(
-                title=title,
-                defaults={'description': description, 'display_order': order, 'is_visible': True},
-            )
-        self.stdout.write(self.style.SUCCESS('Seeded "how we work" process steps.'))
+        if not ProcessStep.objects.exists():
+            for order, (title, description) in enumerate(PROCESS_STEPS):
+                ProcessStep.objects.create(
+                    title=title,
+                    description=description,
+                    display_order=order,
+                    is_visible=True,
+                )
+            self.stdout.write(self.style.SUCCESS('Seeded "how we work" process steps.'))
+        else:
+            self.stdout.write('Process steps already exist, skipping seed.')
 
-        for order, (name, image_file) in enumerate(PARTNERS):
-            partner, _ = PartnerLogo.objects.update_or_create(
-                name=name,
-                defaults={'display_order': order, 'is_visible': True},
-            )
-            if not partner.logo or not partner.logo.storage.exists(partner.logo.name):
+        if not PartnerLogo.objects.exists():
+            for order, (name, image_file) in enumerate(PARTNERS):
+                partner = PartnerLogo.objects.create(
+                    name=name,
+                    display_order=order,
+                    is_visible=True,
+                )
                 logo = seed_image_file(image_file)
                 if logo:
                     partner.logo.save(image_file, logo, save=True)
-        self.stdout.write(self.style.SUCCESS('Seeded partner logos.'))
+            self.stdout.write(self.style.SUCCESS('Seeded partner logos.'))
+        else:
+            self.stdout.write('Partner logos already exist, skipping seed.')

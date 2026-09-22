@@ -2,8 +2,7 @@ import { Link } from "react-router-dom";
 import SEO from "../components/seo/SEO";
 import InnerBanner from "../components/common/InnerBanner";
 import SectionHeading from "../components/common/SectionHeading";
-import TeamMember from "../components/cards/TeamMember";
-import { TEAM } from "../data/team";
+import TeamMember, { TeamMemberSkeleton } from "../components/cards/TeamMember";
 import { useResource } from "../hooks/useResource";
 
 const BREADCRUMB = [{ label: "Home", to: "/" }, { label: "Team" }];
@@ -21,7 +20,6 @@ const FALLBACK_LEDE = "The people behind every TrendShift engagement.";
 export default function TeamPage() {
   const { status, data: page } = useResource("pages", { id: "team" });
   const team = useResource("team");
-  const teamMembers = team.status === "ready" ? team.data : TEAM.map((m) => ({ name: m.name, role: m.role, photo: m.image }));
 
   return (
     <>
@@ -51,9 +49,22 @@ export default function TeamPage() {
             </li>
             <li>
               <div className="teammember">
-                {teamMembers.map((member) => (
-                  <TeamMember key={member.name} name={member.name} role={member.role} image={member.photo} imageAlt={member.name} />
-                ))}
+                {team.status === "loading" ? (
+                  <>
+                    <TeamMemberSkeleton />
+                    <TeamMemberSkeleton />
+                  </>
+                ) : (
+                  (team.data || []).map((member) => (
+                    <TeamMember
+                      key={member.id || member.name}
+                      name={member.name}
+                      role={member.role}
+                      image={member.photo}
+                      imageAlt={member.name}
+                    />
+                  ))
+                )}
               </div>
             </li>
           </ul>

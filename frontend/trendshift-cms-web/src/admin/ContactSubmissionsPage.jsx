@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { cmsApi } from "../services/cmsApi";
 import { useToast } from "./ToastContext";
 import { useAuth } from "./AuthContext";
@@ -61,6 +62,22 @@ function DetailModal({ submission, onClose, onToggleRead, onDelete, canManage })
     </div>
   );
 }
+
+DetailModal.propTypes = {
+  submission: PropTypes.shape({
+    subject: PropTypes.string,
+    name: PropTypes.string,
+    email: PropTypes.string,
+    phone: PropTypes.string,
+    created_at: PropTypes.string,
+    message: PropTypes.string,
+    is_read: PropTypes.bool,
+  }).isRequired,
+  onClose: PropTypes.func.isRequired,
+  onToggleRead: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  canManage: PropTypes.bool.isRequired,
+};
 
 export default function ContactSubmissionsPage() {
   const toast = useToast();

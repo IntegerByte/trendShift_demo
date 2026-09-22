@@ -3,10 +3,10 @@ import SEO from "../components/seo/SEO";
 import InnerBanner from "../components/common/InnerBanner";
 import SectionHeading from "../components/common/SectionHeading";
 import InfoCard from "../components/cards/InfoCard";
-import TeamMember from "../components/cards/TeamMember";
+import TeamMember, { TeamMemberSkeleton } from "../components/cards/TeamMember";
 import StateMessage from "../components/common/StateMessage";
 import PageIntro from "../components/common/PageIntro";
-import { MISSION_VISION_VALUES, TEAM } from "../data/team";
+import { MISSION_VISION_VALUES } from "../data/team";
 import { useResource } from "../hooks/useResource";
 
 const BREADCRUMB = [{ label: "Home", to: "/" }, { label: "About Us" }];
@@ -26,7 +26,6 @@ export default function AboutPage() {
   const values = useResource("values");
   const team = useResource("team");
   const valueCards = values.status === "ready" ? values.data : MISSION_VISION_VALUES;
-  const teamMembers = team.status === "ready" ? team.data : TEAM.map((m) => ({ name: m.name, role: m.role, photo: m.image }));
 
   return (
     <>
@@ -80,9 +79,22 @@ export default function AboutPage() {
             </li>
             <li>
               <div className="teammember">
-                {teamMembers.map((member) => (
-                  <TeamMember key={member.name} name={member.name} role={member.role} image={member.photo} imageAlt={member.name} />
-                ))}
+                {team.status === "loading" ? (
+                  <>
+                    <TeamMemberSkeleton />
+                    <TeamMemberSkeleton />
+                  </>
+                ) : (
+                  (team.data || []).map((member) => (
+                    <TeamMember
+                      key={member.id || member.name}
+                      name={member.name}
+                      role={member.role}
+                      image={member.photo}
+                      imageAlt={member.name}
+                    />
+                  ))
+                )}
               </div>
             </li>
           </ul>

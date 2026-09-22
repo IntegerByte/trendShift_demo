@@ -4,6 +4,7 @@ import { cmsApi } from "../services/cmsApi";
 import RichTextEditor from "./RichTextEditor";
 import { useToast } from "./ToastContext";
 import { useAuth } from "./AuthContext";
+import FileUpload from "./FileUpload";
 
 function defaultFormValue(field) {
   if (field.type === "checkbox") return false;
@@ -56,25 +57,7 @@ function formToPayload(form, fields) {
   return payload;
 }
 
-export function ImageField({ field, currentUrl, file, onChange }) {
-  const preview = file ? URL.createObjectURL(file) : currentUrl;
-  return (
-    <div className="cms-image-field">
-      <div className="cms-image-field__preview" style={preview ? { backgroundImage: `url(${preview})` } : undefined} />
-      <div className="cms-image-field__meta">
-        <input type="file" accept="image/*" onChange={(event) => onChange(event.target.files?.[0] || null)} />
-        <small>{field.hint || "JPG, PNG, GIF or WebP, up to 8MB."}</small>
-      </div>
-    </div>
-  );
-}
-
-ImageField.propTypes = {
-  field: PropTypes.object.isRequired,
-  currentUrl: PropTypes.string,
-  file: PropTypes.object,
-  onChange: PropTypes.func.isRequired,
-};
+export const ImageField = FileUpload;
 
 // Fields the browser's own HTML5 "required" validation could apply to —
 // checkbox/image/richtext/capabilities either can't be blank in a
